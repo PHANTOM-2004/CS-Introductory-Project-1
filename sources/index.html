@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <link
+      rel="stylesheet"
+      href="static/plugins/bootstrap-3.4.1-dist/css/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="static/plugins/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <style>
+      .jumbotron {
+        height: 86vh;
+        margin-bottom: 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 导航条和模态框 -->
+    <div id="navbarContainer"></div>
+    <!-- 巨幕 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Hello, Badminton!</h1>
+        <p>这是一个羽毛球交换场地的网站，仅针对同济学子开放</p>
+      </div>
+    </div>
+    <!-- js -->
+    <script src="static/js/jquery-3.7.1.min.js"></script>
+    <script src="static/plugins/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+    <script src="static/js/login.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#navbarContainer").load("navbar.html", function () {
+          checkLoginStatus(); // 在页面和资源加载完成后检查登录状态
+          // 模态框和导航条加载完成后，初始化相关事件
+          $("#userlogin").on("click", function () {
+            $("#myModal").modal("show");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

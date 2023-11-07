@@ -1,0 +1,185 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/bootstrap-3.4.1-dist/css/bootstrap.css'%}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.css'%}"
+    />
+    <style>
+      .hide {
+        display: none;
+      }
+      .jumbotron {
+        height: 92vh;
+        margin-bottom: 0px;
+      }
+      .col-sm-8 {
+        padding-top: 15px;
+      }
+      .col-sm-4 {
+        padding-top: 15px;
+      }
+      .mainbody {
+        height: 92vh;
+        padding: 5px 5px;
+      }
+      .leftmainbody {
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航条和模态框 -->
+    <div id="navbarContainer">
+          {% include 'navbar.html' %}
+    </div>
+    <!-- 列表 -->
+    <div class="mainbody">
+      <div class="table-responsive col-sm-8 left_mainbody">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th></th>
+              <th>时间</th>
+              <th>场地</th>
+              <th>意向场地时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="list">
+            <tr>
+              <th scope="row">示例(不可删除)</th>
+              <td>周一 15-16</td>
+              <td>5号场地</td>
+              <td>周一 7-8</td>
+              <th>
+                <input
+                  class="btn btn-default btn-xs"
+                  type="button"
+                  value="删除"
+                />
+              </th>
+            </tr>
+            <!-- <tr>
+              <th scope="row">2</th>
+              <td>周日 13-14</td>
+              <td>4号场地</td>
+              <td>周天 18-19</td>
+              <th>
+                <input
+                  class="btn btn-default btn-xs delete"
+                  type="button"
+                  value="删除"
+                />
+              </th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>周日 13-14</td>
+              <td>4号场地</td>
+              <td>周天 18-19</td>
+              <th>
+                <input
+                  class="btn btn-default btn-xs delete"
+                  type="button"
+                  value="删除"
+                />
+              </th>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+      <!-- 提交时间和意向的场地 -->
+      <div
+        class="bs-example col-sm-4 right_mainbody"
+        data-example-id="basic-forms"
+      >
+        <div>提交场地</div>
+        <form>
+          <div class="form-group">
+            <label for="time_submit">场地时间</label>
+            <input
+              type="text"
+              class="form-control"
+              id="time_submit"
+              placeholder="时间"
+            />
+          </div>
+          <div class="form-group">
+            <label for="index_submit">场地号</label>
+            <input
+              type="text"
+              class="form-control"
+              id="index_submit"
+              placeholder="场地号"
+            />
+          </div>
+          <div class="form-group">
+            <label for="target_time">意向场地时间</label>
+            <input
+              type="text"
+              class="form-control"
+              id="target_time"
+              placeholder="意向场地时间"
+            />
+          </div>
+          <button type="submit" class="btn btn-default Submit">提交</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- js -->
+    <script src="{% static 'js/jquery-3.7.1.min.js'%}"></script>
+    <script src="{% static 'plugins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
+    <script>
+      $(document).ready(function () {
+          checkLoginStatus(); // 在页面和资源加载完成后检查登录状态
+          // 模态框和导航条加载完成后，初始化相关事件
+          $("#userlogin").on("click", function () {
+            $("#myModal").modal("show");
+          });
+        });
+      $("#list").on("click", ".delete", function () {
+        // 在此处处理删除按钮点击事件
+        var row = $(this).closest("tr"); // 找到包含删除按钮的行
+        row.remove(); // 从表格中移除该行
+      });
+
+      $(".Submit").click(function () {
+        event.preventDefault(); // 阻止表单的默认提交行为
+        var usertime = $("#time_submit").val();
+        var userindex = $("#index_submit").val();
+        var targettime = $("#target_time").val();
+
+        // 创建一个新的表格行
+        var newRow = $("<tr>");
+
+        // 为新行添加单元格，并填入用户输入的值
+        newRow.append("<th scope='row'>新行</th>");
+        newRow.append("<td>" + usertime + "</td>");
+        newRow.append("<td>" + userindex + "</td>");
+        newRow.append("<td>" + targettime + "</td>");
+        newRow.append(
+          "<th><input class='btn btn-default btn-xs delete' type='button' value='删除'></th>"
+        );
+
+        // 将新行添加到表格的tbody中
+        $("#list").append(newRow);
+
+        // 清空输入框
+        $("#time_submit").val("");
+        $("#index_submit").val("");
+        $("#target_time").val("");
+      });
+    </script>
+  </body>
+</html>

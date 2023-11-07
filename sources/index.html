@@ -12,161 +12,16 @@
       href="static/plugins/font-awesome-4.7.0/css/font-awesome.css"
     />
     <style>
-      .navbar {
-        border-radius: 0%;
-        margin-bottom: 0px;
-        height: 8vh;
-      }
       .jumbotron {
-        height: 92vh;
+        height: 86vh;
         margin-bottom: 0px;
-      }
-      .hide {
-        display: none;
       }
     </style>
   </head>
-  <body>
-    <!-- 导航条 -->
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#bs-example-navbar-collapse-1"
-            aria-expanded="false"
-          >
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/index.html">羽毛球换场系统</a>
-        </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li class="active">
-              <a href="/siping.html"
-                >四平 <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li>
-              <a href="/jiading.html">嘉定</a>
-            </li>
-          </ul>
-          <form class="navbar-form navbar-left">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search" />
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a data-toggle="modal" data-target="#myModal" id="userlogin"
-                >登陆</a
-              >
-            </li>
-            <li class="dropdown">
-              <a
-                href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-                id="username_login"
-                ><span id="username_c">请先登录</span><span class="caret"></span
-              ></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">个人信息</a></li>
-                <li><a href="#">消息</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#" onclick="Logout()">退出登陆</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
-    </nav>
-    <!-- 模态框 连接登陆-->
-    <div>
-      <div
-        class="modal fade"
-        id="myModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="myModalLabel"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title" id="myModalLabel">登陆</h4>
-            </div>
-            <div class="modal-body">
-              <!-- 表单 -->
-              <form>
-                <div class="form-group">
-                  <label for="username">姓名</label>
-                  <input
-                    type="username"
-                    class="form-control"
-                    id="username"
-                    placeholder="姓名"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="password">密码</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    placeholder="密码"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="weixin">微信</label>
-                  <input
-                    type="weixin"
-                    class="form-control"
-                    id="weixin"
-                    placeholder="微信"
-                  />
-                </div>
-                <button type="submit" class="btn btn-default" onclick="Login()">
-                  Submit
-                </button>
-              </form>
-              <!-- 表单结束 -->
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 模态框结束-->
+  <body>
+    <!-- 导航条和模态框 -->
+    <div id="navbarContainer"></div>
     <!-- 巨幕 -->
     <div class="jumbotron">
       <div class="container">
@@ -177,36 +32,17 @@
     <!-- js -->
     <script src="static/js/jquery-3.7.1.min.js"></script>
     <script src="static/plugins/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+    <script src="static/js/login.js"></script>
     <script>
-      //登陆
-      function Login() {
-        event.preventDefault(); // 阻止表单的默认提交行为
-        //获取用户写入内容:姓名 密码 微信
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var weixin = $("#weixin").val();
-        //加判断条件
-        // if(){};
-        console.log(username);
-        //加入到username_login里面
-        $("#username_c").text(username);
-
-        //去掉login
-        $("#userlogin").addClass("hide");
-
-        // 清空输入框
-        $("#username").val("");
-        $("#password").val("");
-        $("#weixin").val("");
-        $(".btn-default[data-dismiss='modal']").trigger("click");
-      }
-      //退出登陆
-      function Logout() {
-        //加入到username_login里面
-        $("#username_c").text("请先登录");
-        //去掉login
-        $("#userlogin").removeClass("hide");
-      }
+      $(document).ready(function () {
+        $("#navbarContainer").load("navbar.html", function () {
+          checkLoginStatus(); // 在页面和资源加载完成后检查登录状态
+          // 模态框和导航条加载完成后，初始化相关事件
+          $("#userlogin").on("click", function () {
+            $("#myModal").modal("show");
+          });
+        });
+      });
     </script>
   </body>
 </html>

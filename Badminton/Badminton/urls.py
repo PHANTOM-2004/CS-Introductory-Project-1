@@ -1,5 +1,5 @@
 """
-URL configuration for Web_badminton project.
+URL configuration for Badminton project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from App_badminton import views
+from SwapVenues.views import views,user_account
+
 urlpatterns = [
-    path('', views.navi),
-    path('jiading/',views.jiading_view),
-    path('siping/',views.siping_view),
+    path('',views.index),
+    path('login/',user_account.login),
+    path('register/',user_account.register),
+    path('logout/',user_account.logout),
+    path('siping/',views.show_siping),
+    path('jiading/',views.show_jiading),
 ]

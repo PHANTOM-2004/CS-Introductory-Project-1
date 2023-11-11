@@ -16,13 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from SwapVenues.views import views,user_account
+from SwapVenues.views import views, user_account, user_list
 
 urlpatterns = [
-    path('',views.index),
-    path('login/',user_account.login),
-    path('register/',user_account.register),
-    path('logout/',user_account.logout),
-    path('siping/',views.show_siping),
-    path('jiading/',views.show_jiading),
+    # index
+    path('', views.index),
+
+    # account
+    path('login/', user_account.login),
+    path('register/', user_account.register),
+    path('logout/', user_account.logout),
+
+    # swap venues
+    path('siping/', views.show_siping),
+    path('jiading/', views.show_jiading),
+
+    # add info
+    path('siping/addinfo/', user_list.addvenu_siping),
+    path('jiading/addinfo/', user_list.addvenu_jiading),
+
+    # delete and edit
+    path('<path:prefix>/addinfo/<int:nid>/delete/', user_list.delete_info),
+    path('<path:prefix>/addinfo/<int:nid>/edit/', user_list.edit_info),
 ]

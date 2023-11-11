@@ -1,16 +1,20 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from SwapVenues import models
 from SwapVenues.tools.md5 import md5
 
-class StudentModelForm(forms.Form):
+
+class StudentForm(forms.Form):
     stu_id = forms.CharField(
         max_length=7,
         min_length=7,
         label="学号",
         widget=forms.TextInput(
-            attrs={"class":"form-control","placeholder": "请输入学号" }
+            attrs={
+                "class": "form-control",
+                "placeholder": "请输入学号"
+            }
         )
     )
     pwd = forms.CharField(
@@ -18,7 +22,10 @@ class StudentModelForm(forms.Form):
         max_length=32,
         min_length=12,
         widget=forms.PasswordInput(
-            attrs={"class":"form-control","placeholder":"请输入密码"},
+            attrs={
+                "class": "form-control",
+                "placeholder": "请输入密码"
+            },
             render_value=True
         )  # 保证密码不置空
     )
@@ -30,9 +37,9 @@ class StudentModelForm(forms.Form):
 
 def login(request):
     if request.method == "GET":
-        form = StudentModelForm()
-        return render(request,"login.html",{"form": form})
-    form = StudentModelForm(data=request.POST)
+        form = StudentForm()
+        return render(request, "login.html", {"form": form})
+    form = StudentForm(data=request.POST)
     if form.is_valid():
         # form.save()
         # print(form.cleaned_data)
@@ -43,13 +50,13 @@ def login(request):
             pwd=form.cleaned_data['pwd']
         ).first()
         if not obj:
-            form.add_error("pwd","用户名或者密码错误")
+            form.add_error("pwd", "用户名或者密码错误")
             return render(request, "login.html", {"form": form})
 
         # 写入session
-        request.session["info"] = {'stu_id': obj.stu_id , 'name': obj.name}
+        request.session["info"] = {'stu_id': obj.stu_id, 'name': obj.name}
         return redirect('/')
-    return render(request,"login.html",{"form": form})
+    return render(request, "login.html", {"form": form})
 
 
 class RegisterModelForm(forms.ModelForm):
@@ -62,18 +69,18 @@ class RegisterModelForm(forms.ModelForm):
         label="设置密码",
         max_length=32,
         min_length=12,
-        widget=forms.PasswordInput(render_value=True)#保证密码不置空
+        widget=forms.PasswordInput(render_value=True)  # 保证密码不置空
     )
-    confirm_pwd=forms.CharField(
+    confirm_pwd = forms.CharField(
         label="确认密码",
         max_length=32,
         min_length=12,
-        widget=forms.PasswordInput(render_value=True)#保证密码不置空
+        widget=forms.PasswordInput(render_value=True)  # 保证密码不置空
     )
 
-    class Meta: # 这里meta必须首字母大写
-        model=models.UserInfo
-        fields = ['stu_id','pwd','confirm_pwd','wechat_id','name']
+    class Meta:  # 这里meta必须首字母大写
+        model = models.UserInfo
+        fields = ['stu_id', 'pwd', 'confirm_pwd', 'wechat_id', 'name']
 
     def __init__(self, *arg, **kwargs):
         super().__init__(*arg, **kwargs)
@@ -81,7 +88,7 @@ class RegisterModelForm(forms.ModelForm):
             # print(name, field)
             if field.widget.attrs:
                 field.widget.attrs["class"] = "form-control"
-                field.widget.attrs["placeholder"] = "请输入"+field.label
+                field.widget.attrs["placeholder"] = "请输入" + field.label
             else:
                 field.widget.attrs = {
                     "class": "form-control",
@@ -91,28 +98,28 @@ class RegisterModelForm(forms.ModelForm):
     # 按照顺序执行
     def clean_pwd(self):
         pwd = self.cleaned_data.get("pwd")
-        #密码加密
-        print(md5(pwd))
+        # 密码加密
+        # print(md5(pwd))
         return md5(pwd)
 
     def clean_confirm_pwd(self):
         confirm = md5(self.cleaned_data.get("confirm_pwd"))
-        print(confirm)
+        # print(confirm)
         pwd = self.cleaned_data.get("pwd")
         if pwd != confirm:
-            raise ValidationError("密码不一致，请重新入")
+            raise ValidationError("密码不一致，请重新输入")
         return confirm
 
 
 def register(request):
     if request.method == "GET":
         form = RegisterModelForm()
-        return render(request, "register.html", {"form" : form})
+        return render(request, "register.html", {"form": form})
     form = RegisterModelForm(data=request.POST)
     if form.is_valid():
         form.save()
         return redirect('/')
-    return render(request,"register.html", {"form" : form})
+    return render(request, "register.html", {"form": form})
 
 
 def logout(request):

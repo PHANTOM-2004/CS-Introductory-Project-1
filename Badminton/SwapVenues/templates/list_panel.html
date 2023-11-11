@@ -1,0 +1,157 @@
+<style>
+    .custom-panel {
+        width: 75%; /* 设置面板宽度为网页宽度的75% */
+        margin: 0 auto; /* 居中显示 */
+    }
+
+    .custom-table {
+        width: 90%; /* 设置表格宽度为100% */
+        background-color: #d9edf7; /* 浅蓝色的底色 */
+        box-shadow: 5px 5px 5px #888888; /* 添加阴影效果 */
+    }
+
+    .table-container {
+        width: 95%;
+        margin: 0 auto; /* 居中显示 */
+    }
+
+    .error-message {
+        color: red;
+    }
+</style>
+
+<div class="panel panel-info custom-panel">
+    <div class="panel-heading">
+        <h1 class="panel-title">添加与查询匹配信息</h1>
+    </div>
+    <div class="table-container">
+        <h4>场地信息表</h4>
+{#        <!-- Button trigger modal -->#}
+{#        <input id="btnAdd" type="button" value="添加信息" class="btn btn-primary" data-toggle="modal"#}
+{#               data-target="#myModal">#}
+        <br>
+        <div style="margin-bottom: 10px">
+            <a class="btn btn-success" href="addinfo/">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                添加信息
+            </a>
+        </div>
+        {#        <input type="button"  value="添加信息normal" class="btn btn-primary" >#}
+{#        <!-- Modal -->#}
+{#        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+{#            <div class="modal-dialog" role="document">#}
+{#                <div class="modal-content">#}
+{#                    <div class="modal-header">#}
+{#                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span#}
+{#                                aria-hidden="true">&times;</span></button>#}
+{#                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>#}
+{#                    </div>#}
+{#                    <div class="modal-body">#}
+{#                        ...#}
+{#                    </div>#}
+{#                    <div class="modal-footer">#}
+{#                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+{#                        <button type="button" class="btn btn-primary">Save changes</button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+
+        <br><br>
+        <h5>信息格式示例</h5>
+        <table class="custom-table">
+            <thead>
+            <tr>
+                <th>校区</th>
+                <th>场地号</th>
+                <th>场地周</th>
+                <th>场地时间</th>
+
+                <th>交换场地-校区</th>
+                <th>交换场地-场地周</th>
+                <th>交换场地-场地时间</th>
+
+                <th>姓名</th>
+                <th>微信号</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>四平/嘉定</td>
+                <td>1</td>
+                <td>周一</td>
+                <td>6-8</td>
+
+                <td>四平/嘉定</td>
+                <td>周二</td>
+                <td>16-18</td>
+
+                <td>张三</td>
+                <td>1234567890</td>
+            </tr>
+            </tbody>
+        </table>
+        <h5>匹配信息</h5>
+        <table class="custom-table">
+            <thead>
+            <tr>
+                <th>校区</th>
+                <th>场地号</th>
+                <th>场地周</th>
+                <th>场地时间</th>
+
+                <th>交换场地-校区</th>
+                <th>交换场地-场地周</th>
+                <th>交换场地-场地时间</th>
+
+                <th>姓名</th>
+                <th>微信号</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in match_list %}
+                <tr>
+                    <td>{{ item.campus }}</td>
+                    <td>{{ item.venue_id }}</td>
+                    <td>{{ item.day_of_week }}</td>
+                    <td>{{ item.venue_time }}</td>
+
+                    <td>{{ item.swap_campus }}</td>
+                    <td>{{ item.swap_day_of_week }}</td>
+                    <td>{{ item.swap_venue_time }}</td>
+
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.wechat_id }}</td>
+                    <td>
+                        {% if item.is_user %}
+                            <a class="btn btn-primary btn-xs" href="addinfo/{{ item.pri_key }}/edit/">编辑</a>
+                            <a class="btn btn-danger btn-xs" href="addinfo/{{ item.pri_key }}/delete/">删除</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if not match_list %}
+            <br>
+            <p class="error-message">没有匹配的用户</p>
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- show dialog -->
+<script type="text/javascript">
+    $(function () {
+        bindBtnAddEvent();
+    })
+
+    function bindBtnAddEvent() {
+        $("#btnAdd").click(function () {
+            //click and show dialog
+            $('#myModal').modal('show');
+        });
+    }
+</script>

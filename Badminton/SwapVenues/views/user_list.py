@@ -213,7 +213,6 @@ def edit_info(request, prefix, nid):
                 'swap_end_time': cur.swap_venue_time_end,
                 'swap_day_of_week': cur.swap_day_of_week,
                 'swap_campus': cur.swap_campus,
-
             }
         )
         return render(request, "venue_edit.html", {"form": form, "msg": "编辑"})

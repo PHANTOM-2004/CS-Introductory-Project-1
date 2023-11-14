@@ -96,6 +96,12 @@ class RegisterModelForm(forms.ModelForm):
                 }  # here no s
 
     # 按照顺序执行
+    def clean_stu_id(self):
+        stu_id = self.cleaned_data.get("stu_id")
+        if models.UserInfo.objects.filter(stu_id=stu_id):
+            raise ValidationError("该账户已存在")
+        return stu_id
+
     def clean_pwd(self):
         pwd = self.cleaned_data.get("pwd")
         # 密码加密

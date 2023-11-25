@@ -1,40 +1,67 @@
 <style>
     .custom-panel {
-        width: 75%; /* 设置面板宽度为网页宽度的75% */
+        width: 80%; /* 设置面板宽度为网页宽度的75% */
         margin: 0 auto; /* 居中显示 */
     }
 
-    .custom-table {
+    .custom-table{
         width: 90%; /* 设置表格宽度为100% */
         background-color: #d9edf7; /* 浅蓝色的底色 */
         box-shadow: 5px 5px 5px #888888; /* 添加阴影效果 */
+        font-size:15px;
+        border:3px solid black;
+        text-align: center;
+    }
+    th,td{
+        border:3px solid black;
+        text-align: center;
     }
 
     .table-container {
         width: 95%;
         margin: 0 auto; /* 居中显示 */
     }
-
     .error-message {
         color: red;
+    }
+    .style1{
+        font-style: normal;
+        font-size:24px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .style2{
+        font-style: normal;
+        font-size:36px;
+        font-weight:bolder;
+        text-align: center;
+    }
+    .style3{
+        font-style: normal;
+        font-size:18px;
+        font-weight:bold;
     }
 </style>
 
 <div class="panel panel-info custom-panel">
-    <div class="panel-heading">
-        <h1 class="panel-title">添加与查询匹配信息</h1>
+    <div class="style2">
+        场地信息表
     </div>
-    <div class="table-container">
-        <h4>场地信息表</h4>
-{#        <!-- Button trigger modal -->#}
-{#        <input id="btnAdd" type="button" value="添加信息" class="btn btn-primary" data-toggle="modal"#}
-{#               data-target="#myModal">#}
-        <br>
-        <div style="margin-bottom: 10px">
-            <a class="btn btn-success" href="addinfo/">
+    <div class="style1">
+        添加与查询匹配信息:
+        <a class="btn btn-success" href="addinfo/">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 添加信息
             </a>
+    </div>
+    <br class="table-container">
+
+{#        <!-- Button trigger modal -->#}
+{#        <input id="btnAdd" type="button" value="添加信息" class="btn btn-primary" data-toggle="modal"#}
+{#               data-target="#myModal">#}
+
+        <div style="margin-bottom: 10px">
+
         </div>
         {#        <input type="button"  value="添加信息normal" class="btn btn-primary" >#}
 {#        <!-- Modal -->#}
@@ -56,9 +83,7 @@
 {#                </div>#}
 {#            </div>#}
 {#        </div>#}
-
-        <br><br>
-        <h5>信息格式示例</h5>
+        <div class="style3"> 信息格式示例:</div>
         <table class="custom-table">
             <thead>
             <tr>
@@ -92,7 +117,8 @@
             </tr>
             </tbody>
         </table>
-        <h5>匹配信息</h5>
+        <br>
+        <div class="style3"> 匹配信息:</div>
         <table class="custom-table">
             <thead>
             <tr>
